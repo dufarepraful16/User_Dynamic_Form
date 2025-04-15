@@ -1,0 +1,28 @@
+body {
+    overflow-x: hidden;
+  }
+  .sidebar {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+  .sidebar .nav-link.active {
+    background-color: #e2e6ea;
+  }
+  .sidebar .nav-link:hover {
+    background-color: #dee2e6;
+  }
+  .status-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 0.75rem;
+  }
+  .status-active { background-color: #28a745; }
+  .status-inactive { background-color: #dc3545; }
+  .status-review { background-color: #ffc107; color: black; }
+  .table img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }

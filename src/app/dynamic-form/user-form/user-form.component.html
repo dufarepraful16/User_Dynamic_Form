@@ -1,0 +1,72 @@
+<div class="row justify-content-center">
+    <div class="container">
+        <div class="card shadow">
+
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 px-4 border-bottom"
+                style="background-color: #f8f9fa;">
+                <h1 class="h3 m-0">User Form</h1>
+                <i (click)="closeModal()" class="fa-solid fa-times-circle"
+                    style="font-size:24px;color:red; margin-top: 5px; margin-right:5px;cursor: pointer;"></i>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center">
+                <div class="card p-3 mb-3 shadow custom-card d-flex justify-content-between">
+                    <div *ngFor="let formGroup of formData;">
+                        <ng-container *ngFor="let field of formGroup.userForm">
+
+                            <!-- Dropdown -->
+                            <ng-container *ngIf="field?.type === 'dropdown'">
+                                <label class="form-label mt-2 mb-1 text-capitalize">{{ field?.label }}</label>
+                                <ng-select [items]="field?.options"
+                                    [placeholder]="field.placeholder || 'Select an option'">
+                                </ng-select>
+                            </ng-container>
+
+                            <!-- Text -->
+                            <ng-container *ngIf="field?.type === 'text'">
+                                <label class="form-label mt-2 mb-1 text-capitalize">{{ field?.label }}</label>
+                                <input type="text" class="form-control"
+                                    [placeholder]="field.placeholder || 'Enter text'" [(ngModel)]="field.value" />
+                            </ng-container>
+
+                            <!-- Textarea -->
+                            <ng-container *ngIf="field?.type === 'textarea'">
+                                <label class="form-label mt-2 mb-1 text-capitalize">{{ field?.label }}</label>
+                                <textarea class="form-control" rows="4"
+                                    [placeholder]="field.placeholder || 'Enter your message'"
+                                    [(ngModel)]="field.value"></textarea>
+                            </ng-container>
+
+                            <!-- Radio Buttons -->
+                            <ng-container *ngIf="field?.type === 'radioButton'">
+                                <label class="form-label mt-2 mb-1 d-block text-capitalize">{{ field?.label }}</label>
+                                <div *ngFor="let option of field.options" class="form-check">
+                                    <input class="form-check-input" type="radio" [name]="field.name" [value]="option"
+                                        [(ngModel)]="field.value" />
+                                    <label class="form-check-label">{{ option }}</label>
+                                </div>
+                            </ng-container>
+
+                            <!-- Checkboxes -->
+                            <ng-container *ngIf="field?.type === 'checkbox'">
+                                <label class="form-label mt-2 mb-1 d-block text-capitalize">{{ field?.label }}</label>
+                                <div *ngFor="let option of field.options" class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                        [checked]="field.value?.includes(option)"
+                                        (change)="onCheckboxChange($event, field, option)" />
+                                    <label class="form-check-label">{{ option }}</label>
+                                </div>
+                            </ng-container>
+
+                        </ng-container>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-center">
+                        <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

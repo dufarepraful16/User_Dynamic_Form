@@ -1,0 +1,109 @@
+<div class="d-flex justify-content-between align-items-center mt-3 px-4 pt-3" style="
+background-color: rgba(10, 131, 183, 0.1);
+border-radius: 5px;
+margin-right: 4px;
+">
+    <h5 class="text-left">Dynamic User Form</h5>
+    <button *ngIf="userForm.controls.length !=5" class="btn btn-primary px-2 py-2 mb-2" (click)="addEventForm()">
+        Add <i class="fa fa-plus delete-icon fa-lg"></i>
+    </button>
+</div>
+<hr class="m-0 p-0" />
+<form [formGroup]="dynamicForm">
+    <div formArrayName="userForm">
+        <div *ngFor="let _ of userForm.controls; let i = index">
+            <div class="card mt-2" [formGroupName]="i">
+                <!-- *ngIf="![0, 0].includes(i)" -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="text-left"></h5>
+                    <i class="fa fa-trash text-primary delete-icon mt-3 mx-2" (click)="deleteEventForm(_, i)"></i>
+                </div>
+                <div class="row mt-2">
+                    <div class="col mx-2 mb-2">
+                        <label class="form-label">Label</label>
+                        <input formControlName="label" type="text" class="form-control"
+                            placeholder="Enter Label Name" />
+                        <ng-container *ngIf="
+              userForm.controls[i]
+                .get('label')
+                ?.hasError('required') &&
+              (userForm.controls[i].get('label')?.dirty ||
+              userForm.controls[i].get('label')?.touched)
+            ">
+                            <small class="error-message">
+                                Question is required</small>
+                        </ng-container>
+                    </div>
+
+                    <div class="col mx-2 mb-2">
+                        <label class="form-label"> Type </label>
+                        <ng-select class="custom text-capitalize" formControlName="type" [items]="typeOptions"
+                            placeholder="Enter type" (change)="updateValidations(i)"></ng-select>
+                        <ng-container *ngIf="
+              userForm.controls[i]
+                .get('type')
+                ?.hasError('required') &&
+              (userForm.controls[i].get('type')?.dirty ||
+              userForm.controls[i].get('type')?.touched)
+            ">
+                            <small class="error-message"> Type is required</small>
+                        </ng-container>
+                    </div>
+                    <div class="col mx-2 mb-2" *ngIf="
+            userForm.controls[i].get('type')?.value == 'dropdown' || 
+            userForm.controls[i].get('type')?.value == 'radioButton' ||
+            userForm.controls[i].get('type')?.value == 'checkbox'
+          ">
+                        <label class="form-label"> Options </label>
+                        <input formControlName="options" type="text" class="form-control"
+                            placeholder="Enter option1,option2,.." />
+                        <ng-container *ngIf="
+              userForm.controls[i]
+                .get('options')
+                ?.hasError('required') &&
+              (userForm.controls[i].get('options')?.dirty ||
+              userForm.controls[i].get('options')?.touched)
+            ">
+                            <small class="error-message">
+                                Options is required</small>
+                        </ng-container>
+                    </div>
+                    <div class="col mx-2 mb-2">
+                        <label class="form-label"> Validations </label>
+                        <ng-select class="custom text-capitalize" formControlName="validations"
+                            [items]="validationEvent" placeholder="add validation" bindLabel="name" bindValue="id"
+                            [multiple]="true"></ng-select>
+                        <ng-container *ngIf="
+              userForm.controls[i]
+                .get('validations')
+                ?.hasError('required') &&
+              (userForm.controls[i].get('validations')?.dirty ||
+              userForm.controls[i].get('validations')?.touched)
+            ">
+                            <small class="error-message">
+                                Validations is required</small>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="row" *ngIf="
+          userForm.controls[i].get('type')?.value == 'dropdown' || 
+          userForm.controls[i].get('type')?.value == 'radioButton'
+        ">
+                    <div class="col mt-2 mx-2 mb-2">
+                        <h6 class="text-capitalize">
+                            Please enter values of options in comma separate like
+                            option1,option2,...etc
+                        </h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3" *ngIf="userForm.controls.length > 0">
+        <button type="submit" class="btn btn-primary"  [disabled]="isFormInvalid()" (click)="onSubmit()">
+          Submit
+        </button>
+      </div>
+</form>
+
+<!-- <app-user-form *ngIf="submitted"></app-user-form> -->

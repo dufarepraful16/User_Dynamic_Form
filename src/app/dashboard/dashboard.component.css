@@ -1,0 +1,32 @@
+.content {
+    padding: 20px;
+  }
+  .card {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 5px solid #2596be;
+    transition: border-bottom-color 0.3s ease-in-out;
+    color: #2596be;
+  }
+  
+  i {
+    font-size: 50px;
+    opacity: 0.3;
+    color: #2596be;
+  }
+  
+  p, h3 {
+     font-weight: bold;
+  }
+  
+  #chart {
+    max-width: 650px;
+    margin: 35px auto;
+  }
+  
+  h3{
+    color:#2596be;
+  }
