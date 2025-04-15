@@ -8,7 +8,6 @@ export class FormDataService {
 
   saveFormData(data: any) {
     this.storedData.push(data);
-    console.log('Data saved:', data);
   }
 
   getFormData() {

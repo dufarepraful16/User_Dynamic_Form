@@ -124,10 +124,8 @@ export class FormBuilderComponent implements OnInit {
     
     if (this.dynamicForm.valid) {
       
-      console.log("this.pollingForm.value",this.dynamicForm.value,formData);      
       this.formDataService.saveFormData(this.dynamicForm.value);
       this.submitted = true;
-      console.log('Form Data Submitted:', this.dynamicForm.value);
       this.openUserFormModal();
       this.toastr.success('User Dynamic Form submitted successfully!', 'Success');
     }

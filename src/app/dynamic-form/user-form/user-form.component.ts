@@ -20,7 +20,6 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.formData = this.formDataService.getFormData();
-    console.log('Received data:', this.formData);
   }
 
   onCheckboxChange(event: any, field: any, option: string) {
@@ -39,7 +38,27 @@ export class UserFormComponent implements OnInit {
     this.activeModal.close("close with cancel button");
   }
 
+  isFormValid(): boolean {
+    return this.formData.every(group =>
+      group.userForm.every((field: { type: string; value: string | any[] | null | undefined; }) => {
+        if (field.type === 'checkbox') {
+          return Array.isArray(field.value) && field.value.length > 0;
+        } else if (field.type === 'radioButton' || field.type === 'dropdown') {
+          return field.value !== undefined && field.value !== null && field.value !== '';
+        } else {
+          return field.value !== undefined && field.value !== null && field.value.toString().trim() !== '';
+        }
+      })
+    );
+  }
+  
+
   onSubmit() {
+    if (!this.isFormValid()) {
+      this.toastr.error('Please fill all required fields', 'Validation Error');
+      return;
+    }
+  
     const result: any[] = [];
   
     this.formData.forEach(formGroup => {
@@ -49,9 +68,11 @@ export class UserFormComponent implements OnInit {
       });
       result.push(groupData);
     });
+  
     this.closeModal();
     this.toastr.success('Form submitted successfully!', 'Success');
   }
+  
   
 
 }
