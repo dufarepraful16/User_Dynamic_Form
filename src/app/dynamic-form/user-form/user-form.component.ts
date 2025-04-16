@@ -23,34 +23,45 @@ export class UserFormComponent implements OnInit {
   }
 
   onCheckboxChange(event: any, field: any, option: string) {
-    if (!Array.isArray(field.value)) {
+    if (!field.value) {
       field.value = [];
     }
   
     if (event.target.checked) {
       field.value.push(option);
     } else {
-      field.value = field.value.filter((val: string) => val !== option);
+      field.value = field.value.filter((o: string) => o !== option);
     }
   }
+  
 
   closeModal() {
     this.activeModal.close("close with cancel button");
   }
 
   isFormValid(): boolean {
-    return this.formData.every(group =>
-      group.userForm.every((field: { type: string; value: string | any[] | null | undefined; }) => {
-        if (field.type === 'checkbox') {
-          return Array.isArray(field.value) && field.value.length > 0;
-        } else if (field.type === 'radioButton' || field.type === 'dropdown') {
-          return field.value !== undefined && field.value !== null && field.value !== '';
-        } else {
-          return field.value !== undefined && field.value !== null && field.value.toString().trim() !== '';
+    return this.formData.every(formGroup => 
+      formGroup.userForm.every((field: any) => {
+        if (
+          (field.type === 'text' || field.type === 'textarea' || field.type === 'dropdown') &&
+          (!field.value || field.value.trim() === '')
+        ) {
+          return false;
         }
+  
+        if (field.type === 'radioButton' && !field.value) {
+          return false;
+        }
+  
+        if (field.type === 'checkbox' && (!Array.isArray(field.value) || field.value.length === 0)) {
+          return false;
+        }
+  
+        return true;
       })
     );
   }
+  
   
 
   onSubmit() {
@@ -68,11 +79,10 @@ export class UserFormComponent implements OnInit {
       });
       result.push(groupData);
     });
-  
-    this.closeModal();
-    this.toastr.success('Form submitted successfully!', 'Success');
+    console.log('Submitted Form Data:', result);
+    this.closeModal()
+    this.toastr.success('User Form submitted successfully!', 'Success');
   }
-  
   
 
 }

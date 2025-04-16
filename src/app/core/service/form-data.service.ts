@@ -9,6 +9,10 @@ export class FormDataService {
   saveFormData(data: any) {
     this.storedData.push(data);
   }
+  clearFormData() {
+    this.storedData=[];
+    return;
+  }
 
   getFormData() {
     return this.storedData;

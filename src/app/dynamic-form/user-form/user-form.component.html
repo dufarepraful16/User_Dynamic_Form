@@ -10,7 +10,7 @@
             </div>
 
             <div class="col-12 d-flex justify-content-center">
-                <div class="card p-3 mb-3 shadow custom-card d-flex justify-content-between">
+                <div class="card p-3 shadow custom-card d-flex justify-content-between">
                     <div *ngFor="let formGroup of formData;">
                         <ng-container *ngFor="let field of formGroup.userForm">
 
@@ -18,14 +18,14 @@
                             <ng-container *ngIf="field?.type === 'dropdown'">
                                 <label class="form-label mt-2 mb-1 text-capitalize">{{ field?.label }}</label>
                                 <ng-select [items]="field?.options"
-                                    [placeholder]="field.placeholder || 'Select an option'">
+                                    [placeholder]="field.placeholder || 'Select an option'" [(ngModel)]="field.value" required>
                                 </ng-select>
                             </ng-container>
 
                             <!-- Text -->
                             <ng-container *ngIf="field?.type === 'text'">
                                 <label class="form-label mt-2 mb-1 text-capitalize">{{ field?.label }}</label>
-                                <input type="text" class="form-control"
+                                <input type="text" class="form-control" required
                                     [placeholder]="field.placeholder || 'Enter text'" [(ngModel)]="field.value" />
                             </ng-container>
 
@@ -34,7 +34,7 @@
                                 <label class="form-label mt-2 mb-1 text-capitalize">{{ field?.label }}</label>
                                 <textarea class="form-control" rows="4"
                                     [placeholder]="field.placeholder || 'Enter your message'"
-                                    [(ngModel)]="field.value"></textarea>
+                                    [(ngModel)]="field.value" required></textarea>
                             </ng-container>
 
                             <!-- Radio Buttons -->
@@ -42,7 +42,7 @@
                                 <label class="form-label mt-2 mb-1 d-block text-capitalize">{{ field?.label }}</label>
                                 <div *ngFor="let option of field.options" class="form-check">
                                     <input class="form-check-input" type="radio" [name]="field.name" [value]="option"
-                                        [(ngModel)]="field.value" />
+                                        [(ngModel)]="field.value" required />
                                     <label class="form-check-label">{{ option }}</label>
                                 </div>
                             </ng-container>
@@ -53,7 +53,7 @@
                                 <div *ngFor="let option of field.options" class="form-check">
                                     <input class="form-check-input" type="checkbox"
                                         [checked]="field.value?.includes(option)"
-                                        (change)="onCheckboxChange($event, field, option)" />
+                                        (change)="onCheckboxChange($event, field, option)" required/>
                                     <label class="form-check-label">{{ option }}</label>
                                 </div>
                             </ng-container>

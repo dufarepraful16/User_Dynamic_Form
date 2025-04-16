@@ -37,12 +37,6 @@ export class FormBuilderComponent implements OnInit {
   }
 
 
-  resetForm() {
-    this.dynamicForm = new FormGroup({
-      userForm: new FormArray<FormGroup<any>>([]),
-    });
-  }
-  
   constructor(
     private formBuilder: FormBuilder,
     private formDataService: FormDataService,
@@ -64,6 +58,7 @@ export class FormBuilderComponent implements OnInit {
       validations: new FormControl<string | null>(''),
     });
       this.userForm.push(userForm);
+      console.log('Adding form field...');
   }
 
 
@@ -123,7 +118,7 @@ export class FormBuilderComponent implements OnInit {
     }
     
     if (this.dynamicForm.valid) {
-      
+      this.formDataService.clearFormData();
       this.formDataService.saveFormData(this.dynamicForm.value);
       this.submitted = true;
       this.openUserFormModal();
@@ -143,10 +138,9 @@ export class FormBuilderComponent implements OnInit {
     });
   
     modalRef.closed.subscribe(() => {
-      this.resetForm();
+      this.dynamicForm.reset();
     });
   }
   
-
 
 }
